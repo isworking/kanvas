@@ -7,7 +7,6 @@ project(
     LANGUAGES C
     )
 
-find_package(PNG REQUIRED)
     
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_C_STANDARD 17)
@@ -16,24 +15,42 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 option(KVS_BUILD_EXAMPLES "Build examples" ON)
 option(KVS_BUILD_TESTS "Build tests" ON)
+option(KVS_ENABLE_PNG "Enable PNG support" ON)
+
+if(KVS_ENABLE_PNG)
+    find_package(PNG REQUIRED)
+endif()
 
 file(GLOB KVS_DRAWABLE_SOURCES
     src/drawables/*.c
 )
 
-add_library(kanvas
+set(KVS_SOURCES
     src/canvas.c
     src/drawable.c
     src/color.c
     src/image.c
     src/image_ppm.c
-    src/image_png.c
     ${KVS_DRAWABLE_SOURCES}
+)
+
+if(KVS_ENABLE_PNG)
+    list(APPEND KVS_SOURCES
+        src/image_png.c
+    )
+endif()
+
+add_library(kanvas ${KVS_SOURCES})
+
+configure_file(
+    include/kvs/config.h.in
+    ${CMAKE_CURRENT_BINARY_DIR}/generated/kvs/config.h
 )
 
 target_include_directories(kanvas
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/generated>
         $<INSTALL_INTERFACE:include>
 
     PRIVATE
@@ -47,8 +64,10 @@ target_compile_options(kanvas PRIVATE
     -fvisibility=hidden
 )
 
-target_link_libraries(kanvas
-    PRIVATE PNG::PNG)
+if(KVS_ENABLE_PNG)
+    target_link_libraries(kanvas
+        PRIVATE PNG::PNG)
+endif()
 
 if(KVS_BUILD_EXAMPLES)
     add_executable(hello

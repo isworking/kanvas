@@ -8,6 +8,8 @@
 #include <kvs/types.h>
 #include <kvs/color.h>
 
+#include <kvs/config.h>
+
 KVS_BEGIN_DECLS
 
 typedef struct kvs_image kvs_image;
@@ -28,10 +30,28 @@ KVS_API bool kvs_image_write_ppm(
     const char *path);
 kvs_image *kvs_image_read_ppm(const char *path);
 
+#if KVS_ENABLE_PNG
+
 KVS_API bool kvs_image_write_png(
     kvs_image *img,
     const char *path);
+KVS_API kvs_image *kvs_image_read_png(const char *path);
+
+#else
+
+KVS_UNAVAILABLE(
+    "Kanvas was built without PNG support "
+    "(enable KVS_WITH_PNG)")
+bool kvs_image_write_png(
+    kvs_image *image,
+    const char *path);
+
+KVS_UNAVAILABLE(
+    "Kanvas was built without PNG support "
+    "(enable KVS_WITH_PNG)")
 kvs_image *kvs_image_read_png(const char *path);
+
+#endif
 
 KVS_END_DECLS
 

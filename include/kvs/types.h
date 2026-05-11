@@ -26,9 +26,11 @@
 #elif defined(__GNUC__) || defined(__clang__)
 #define KVS_API __attribute__((visibility("default")))
 #define KVS_INLINE static inline __attribute__((always_inline))
+#define KVS_UNAVAILABLE(msg) __attribute__((error(msg)))
 #else
 #define KVS_API
 #define KVS_INLINE static inline
+#define KVS_UNAVAILABLE(msg)
 #endif
 
 #include <stdint.h>

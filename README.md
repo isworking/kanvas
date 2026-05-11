@@ -54,7 +54,7 @@ See [examples/](examples/) for more.
 
 ## Dependencies
 
-- `libpng`
+- `libpng` (optional, disable with `KVS_ENABLE_PNG=OFF`)
 
 ## Build
 
@@ -85,5 +85,5 @@ Early development. The API is unstable and tests are still being written.
 
 ## License
 
-Licensed under the Apache License 2.0.
+Licensed under the Apache License 2.0.  
 See [LICENSE](LICENSE).

@@ -1,0 +1,3 @@
+#pragma once
+
+#cmakedefine01 KVS_ENABLE_PNG
