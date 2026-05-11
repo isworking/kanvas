@@ -207,7 +207,7 @@ kvs_image *kvs_image_read_png(const char *path)
     if (!rows)
     {
         free(kvs_image_get_pixels(img));
-        free(img);
+        kvs_image_destroy(img);
 
         png_destroy_read_struct(
             &png,
