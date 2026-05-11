@@ -77,14 +77,25 @@ Early development. The API is unstable and tests are still being written.
 
 - [x] ~~Image drawables~~
     - [ ] Use `state.color` as tint
+- [ ] Color format support
+    - [x] ~~RGBA~~
+    - [ ] RGB
+    - [ ] Hexadecimal
 - [ ] Drawable bounding boxes
 - [ ] Rasterize per drawable instead of per pixel
-- [ ] Proper (and more) examples
 - [ ] Error handling
 - [ ] Add tests
+- [ ] Add color constants
+- [ ] Improve documentation and examples
+- [ ] Image format support
+    - [x] ~~PNG~~
+        - [ ] Add more detailed PNG metadata
+    - [ ] JPEG
 - [ ] Drawable scaling
-- [ ] Vector operations
-- [ ] Text rendering (FreeType + HarfBuzz)
+- [ ] Text drawables
+    - [ ] `FreeType` integration
+    - [ ] `HarfBuzz` shaping
+- [ ] Boolean drawable operations
 
 ## License
 
