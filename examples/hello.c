@@ -6,14 +6,14 @@ int main(void)
 
     kvs_drawable *rect = kvs_drawable_rect(KVS_SIZE(200, 100));
 
-    kvs_drawable_set_color(rect, kvs_color_from_rgba(255, 0, 0, 128));
+    kvs_drawable_set_color(rect, kvs_color_from_hex_rgba(0xFF000080));
     kvs_canvas_add(canvas, rect, KVS_POS(100, 100));
 
-    kvs_drawable_set_color(rect, kvs_color_from_rgba(0, 255, 0, 128));
+    kvs_drawable_set_color(rect, kvs_color_from_hex_rgba(0x00FF0080));
     kvs_canvas_add(canvas, rect, KVS_POS(200, 150));
 
-    kvs_drawable_set_color(rect, kvs_color_from_rgba(0, 255, 255, 128));
-    kvs_canvas_add(canvas, rect, KVS_POS(200, 150));
+    kvs_drawable_set_color(rect, kvs_color_from_hex_rgba(0x00FFFF80));
+    kvs_canvas_add(canvas, rect, KVS_POS(225, 175));
 
     kvs_canvas_render(canvas);
 

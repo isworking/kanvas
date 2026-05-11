@@ -12,6 +12,36 @@ kvs_color kvs_color_from_rgba(kvs_u8 r,
         .a = a};
 }
 
+kvs_color kvs_color_from_rgb(
+    kvs_u8 r,
+    kvs_u8 g,
+    kvs_u8 b)
+{
+    return (kvs_color){
+        .r = r,
+        .g = g,
+        .b = b,
+        .a = 255};
+}
+
+kvs_color kvs_color_from_hex_rgb(kvs_u32 hex)
+{
+    return kvs_color_from_rgba(
+        (hex >> 16) & 0xFF,
+        (hex >> 8) & 0xFF,
+        hex & 0xFF,
+        255);
+}
+
+kvs_color kvs_color_from_hex_rgba(kvs_u32 hex)
+{
+    return kvs_color_from_rgba(
+        (hex >> 24) & 0xFF,
+        (hex >> 16) & 0xFF,
+        (hex >> 8) & 0xFF,
+        hex & 0xFF);
+}
+
 static inline kvs_u8 kvs_color_blend_channel(
     kvs_u8 src,
     kvs_u8 dst,
