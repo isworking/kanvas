@@ -85,7 +85,7 @@ kvs_drawable *kvs_drawable_rect(kvs_size size)
 
     kvs_drawable_state state;
 
-    state.color = kvs_color_from_rgba(255, 0, 0, 255);
+    state.color = kvs_color_from_rgba(255, 255, 255, 255);
 
     kvs_drawable_set_userdata(drawable, data);
     kvs_drawable_set_state(drawable, state);
