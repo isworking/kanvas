@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.15)
 
 project(
     kanvas
-    VERSION 0.1.0
-    DESCRIPTION "Tiny software rendering library"
+    VERSION 0.0.1
+    DESCRIPTION "A lightweight 2D raster graphics and canvas library written in C."
     LANGUAGES C
     )
 
