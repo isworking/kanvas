@@ -10,6 +10,8 @@ typedef struct kvs_image_data
 
 static bool kvs_drawable_image_sample(kvs_canvas *canvas, kvs_drawable_state state, void *userdata, kvs_pos position, kvs_color *out)
 {
+    (void)state;
+
     kvs_image_data *img = userdata;
 
     int img_width = kvs_image_get_width(img->src);
@@ -101,7 +103,7 @@ void kvs_drawable_image_set_source(kvs_drawable *drawable, kvs_image *src)
     KVS_DATA(drawable, image)->src = src;
 }
 
-kvs_image *kvs_drawable_image_get_source(kvs_drawable *drawable)
+kvs_image *kvs_drawable_image_get_source(const kvs_drawable *drawable)
 {
     return KVS_DATA(drawable, image)->src;
 }

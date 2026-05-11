@@ -1,7 +1,7 @@
 #include <kvs/image.h>
 
 bool kvs_image_write_ppm(
-    kvs_image *img,
+    const kvs_image *img,
     const char *path)
 {
     FILE *fp = fopen(path, "wb");

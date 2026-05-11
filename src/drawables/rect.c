@@ -97,7 +97,7 @@ void kvs_drawable_rect_set_size(kvs_drawable *drawable, kvs_size size)
 {
     KVS_DATA(drawable, rect)->size = size;
 }
-kvs_size kvs_drawable_rect_get_size(kvs_drawable *drawable)
+kvs_size kvs_drawable_rect_get_size(const kvs_drawable *drawable)
 {
     return KVS_DATA(drawable, rect)->size;
 }
@@ -107,7 +107,7 @@ void kvs_drawable_rect_set_width(kvs_drawable *drawable, int width)
     KVS_DATA(drawable, rect)->size.w = width;
 }
 
-int kvs_drawable_rect_get_width(kvs_drawable *drawable)
+int kvs_drawable_rect_get_width(const kvs_drawable *drawable)
 {
     return KVS_DATA(drawable, rect)->size.w;
 }
@@ -117,7 +117,7 @@ void kvs_drawable_rect_set_height(kvs_drawable *drawable, int height)
     KVS_DATA(drawable, rect)->size.h = height;
 }
 
-int kvs_drawable_rect_get_height(kvs_drawable *drawable)
+int kvs_drawable_rect_get_height(const kvs_drawable *drawable)
 {
     return KVS_DATA(drawable, rect)->size.h;
 }

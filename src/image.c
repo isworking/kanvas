@@ -27,27 +27,27 @@ kvs_image *kvs_image_create(kvs_size size)
     return img;
 }
 
-kvs_size kvs_image_get_size(kvs_image *img)
+kvs_size kvs_image_get_size(const kvs_image *img)
 {
     return img->size;
 }
 
-int kvs_image_get_width(kvs_image *img)
+int kvs_image_get_width(const kvs_image *img)
 {
     return kvs_image_get_size(img).w;
 }
 
-int kvs_image_get_height(kvs_image *img)
+int kvs_image_get_height(const kvs_image *img)
 {
     return kvs_image_get_size(img).h;
 }
 
-kvs_color *kvs_image_get_pixels(kvs_image *img)
+kvs_color *kvs_image_get_pixels(const kvs_image *img)
 {
     return img->pixels;
 }
 
-kvs_color kvs_image_get_pixel(kvs_image *img, kvs_pos position)
+kvs_color kvs_image_get_pixel(const kvs_image *img, kvs_pos position)
 {
     int idx = position.y * kvs_image_get_width(img) + position.x;
 

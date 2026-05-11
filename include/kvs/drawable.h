@@ -42,23 +42,17 @@ KVS_API kvs_drawable *kvs_drawable_create(
 KVS_API void kvs_drawable_set_state(
     kvs_drawable *drawable,
     kvs_drawable_state state);
-
-KVS_API kvs_drawable_state kvs_drawable_get_state(
-    kvs_drawable *drawable);
+KVS_API kvs_drawable_state kvs_drawable_get_state(const kvs_drawable *drawable);
 
 KVS_API void kvs_drawable_set_color(
     kvs_drawable *drawable,
     kvs_color color);
-
-KVS_API kvs_color kvs_drawable_get_color(
-    kvs_drawable *drawable);
+KVS_API kvs_color kvs_drawable_get_color(const kvs_drawable *drawable);
 
 KVS_API void kvs_drawable_set_userdata(
     kvs_drawable *drawable,
     void *userdata);
-
-KVS_API void *kvs_drawable_get_userdata(
-    kvs_drawable *drawable);
+KVS_API void *kvs_drawable_get_userdata(const kvs_drawable *drawable);
 
 KVS_API bool kvs_drawable_sample(
     kvs_drawable *drawable,

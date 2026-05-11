@@ -2,7 +2,7 @@
 
 #include <png.h>
 
-bool kvs_image_write_png(kvs_image *img, const char *path)
+bool kvs_image_write_png(const kvs_image *img, const char *path)
 {
     FILE *fp = fopen(path, "wb");
 
@@ -183,8 +183,10 @@ kvs_image *kvs_image_read_png(const char *path)
 
     png_read_update_info(png, info);
 
+    kvs_size img_size = KVS_SIZE(width, height);
+
     kvs_image *img =
-        kvs_image_create(KVS_SIZE(width, height));
+        kvs_image_create(img_size);
 
     if (!img)
     {
