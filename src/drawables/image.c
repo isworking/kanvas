@@ -3,6 +3,8 @@
 
 #include <kvs/drawables/image.h>
 
+#include <stdlib.h>
+
 typedef struct kvs_image_data
 {
     kvs_image *src;

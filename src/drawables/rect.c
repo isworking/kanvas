@@ -3,6 +3,8 @@
 
 #include <kvs/drawables/rect.h>
 
+#include <stdlib.h>
+
 typedef struct kvs_rect_data
 {
     kvs_size size;

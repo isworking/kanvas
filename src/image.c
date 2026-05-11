@@ -2,6 +2,9 @@
 
 #include "internal/image_internal.h"
 
+#include <stdlib.h>
+#include <string.h>
+
 kvs_image *kvs_image_create(kvs_size size)
 {
     size_t total =

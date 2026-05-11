@@ -3,6 +3,9 @@
 
 #include "internal/canvas_internal.h"
 
+#include <stdlib.h>
+#include <string.h>
+
 kvs_canvas_node *kvs_canvas_node_create(kvs_drawable *drawable)
 {
     kvs_canvas_node *node = malloc(sizeof(kvs_canvas_node));

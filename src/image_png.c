@@ -1,6 +1,7 @@
 #include <kvs/image.h>
 
 #include <png.h>
+#include <stdlib.h>
 
 bool kvs_image_write_png(const kvs_image *img, const char *path)
 {

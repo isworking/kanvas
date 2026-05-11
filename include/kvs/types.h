@@ -35,10 +35,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include <stdlib.h>
 #include <stdbool.h>
-#include <stdio.h>
-#include <string.h>
 
 KVS_BEGIN_DECLS
 
@@ -51,6 +48,9 @@ KVS_BEGIN_DECLS
 
 #define KVS_DATA(drawable, kind) \
     ((kvs_##kind##_data *)(kvs_drawable_get_userdata(drawable)))
+
+#define KVS_USERDATA(drawable, type) \
+    ((type *)kvs_drawable_get_userdata(drawable))
 
 typedef uint8_t kvs_u8;
 typedef uint32_t kvs_u32;

@@ -3,6 +3,8 @@
 
 #include "internal/drawable_internal.h"
 
+#include <stdlib.h>
+
 kvs_drawable *kvs_drawable_create(kvs_sample_fn sample, kvs_destroy_fn destroy, kvs_clone_fn clone)
 {
     kvs_drawable *drawable = malloc(sizeof(kvs_drawable));

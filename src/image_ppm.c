@@ -1,5 +1,8 @@
 #include <kvs/image.h>
 
+#include <stdio.h>
+#include <string.h>
+
 bool kvs_image_write_ppm(
     const kvs_image *img,
     const char *path)
