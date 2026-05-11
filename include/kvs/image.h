@@ -21,6 +21,7 @@ KVS_API int kvs_image_get_width(kvs_image *img);
 KVS_API int kvs_image_get_height(kvs_image *img);
 
 KVS_API kvs_color *kvs_image_get_pixels(kvs_image *img);
+KVS_API kvs_color kvs_image_get_pixel(kvs_image *img, kvs_pos position);
 KVS_API void kvs_image_set_pixels_copy(kvs_image *img, kvs_color *pixels);
 
 KVS_API void kvs_image_destroy(kvs_image *img);

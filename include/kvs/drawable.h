@@ -9,6 +9,7 @@
 #include <kvs/color.h>
 
 #include <kvs/drawables/rect.h>
+#include <kvs/drawables/image.h>
 
 KVS_BEGIN_DECLS
 

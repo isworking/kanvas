@@ -75,10 +75,13 @@ Early development. The API is unstable and tests are still being written.
 
 ## Roadmap
 
-- [ ] Image drawables
+- [x] ~~Image drawables~~
+    - [ ] Use `state.color` as tint
 - [ ] Drawable bounding boxes
-- [ ] Per-drawable rasterization
+- [ ] Rasterize per drawable instead of per pixel
+- [ ] Proper (and more) examples
 - [ ] Error handling
+- [ ] Add tests
 - [ ] Drawable scaling
 - [ ] Vector operations
 - [ ] Text rendering (FreeType + HarfBuzz)

@@ -47,6 +47,13 @@ kvs_color *kvs_image_get_pixels(kvs_image *img)
     return img->pixels;
 }
 
+kvs_color kvs_image_get_pixel(kvs_image *img, kvs_pos position)
+{
+    int idx = position.y * kvs_image_get_width(img) + position.x;
+
+    return kvs_image_get_pixels(img)[idx];
+}
+
 void kvs_image_set_pixels_copy(kvs_image *img, kvs_color *pixels)
 {
     size_t total =

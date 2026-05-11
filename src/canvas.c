@@ -224,11 +224,11 @@ void kvs_canvas_render(kvs_canvas *canvas)
 {
     kvs_color *pixels = kvs_canvas_get_pixels(canvas);
 
-    for (int y = 0; y < canvas->size.h; y++)
+    for (int y = 0; y < kvs_canvas_get_height(canvas); y++)
     {
-        for (int x = 0; x < canvas->size.w; x++)
+        for (int x = 0; x < kvs_canvas_get_width(canvas); x++)
         {
-            int idx = y * canvas->size.w + x;
+            int idx = y * kvs_canvas_get_width(canvas) + x;
 
             kvs_canvas_node *current_node = kvs_canvas_get_head(canvas);
 
