@@ -47,6 +47,18 @@ bool kvs_image_write_png(const kvs_image *img, const char *path)
         PNG_COMPRESSION_TYPE_DEFAULT,
         PNG_FILTER_TYPE_DEFAULT);
 
+    png_text text;
+
+    text.compression = PNG_TEXT_COMPRESSION_NONE;
+    text.key = "Software";
+    text.text = "Kanvas v" KVS_VERSION_STRING;
+
+    png_set_text(
+        png,
+        info,
+        &text,
+        1);
+
     png_write_info(png, info);
 
     png_bytep *rows =
