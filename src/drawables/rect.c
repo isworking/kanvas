@@ -10,17 +10,15 @@ typedef struct kvs_rect_data
     kvs_size size;
 } kvs_rect_data;
 
+kvs_rect kvs_rect_bounds(const kvs_drawable *drawable, kvs_pos position);
+
 static bool kvs_rect_sample(kvs_canvas *canvas, kvs_drawable_state state, void *userdata, kvs_pos position, kvs_color *out)
 {
-    kvs_rect_data *rect = userdata;
 
     (void)canvas;
+    (void)userdata;
 
-    if (
-        position.x < 0 ||
-        position.y < 0 ||
-        position.x >= rect->size.w ||
-        position.y >= rect->size.h)
+    if (position.x < 0 || position.y < 0)
         return false;
 
     *out = state.color;
@@ -41,7 +39,7 @@ static kvs_drawable *kvs_rect_clone(
     const kvs_drawable *src)
 {
     kvs_drawable *copy =
-        kvs_drawable_create(kvs_rect_sample, kvs_rect_destroy, kvs_rect_clone);
+        kvs_drawable_create(kvs_rect_sample, kvs_rect_destroy, kvs_rect_clone, kvs_rect_bounds);
 
     if (!copy)
         return NULL;
@@ -66,9 +64,14 @@ static kvs_drawable *kvs_rect_clone(
     return copy;
 }
 
+kvs_rect kvs_rect_bounds(const kvs_drawable *drawable, kvs_pos position)
+{
+    return KVS_RECT(position.x, position.y, kvs_drawable_rect_get_width(drawable), kvs_drawable_rect_get_height(drawable));
+}
+
 kvs_drawable *kvs_drawable_rect(kvs_size size)
 {
-    kvs_drawable *drawable = kvs_drawable_create(kvs_rect_sample, kvs_rect_destroy, kvs_rect_clone);
+    kvs_drawable *drawable = kvs_drawable_create(kvs_rect_sample, kvs_rect_destroy, kvs_rect_clone, kvs_rect_bounds);
 
     if (!drawable)
     {

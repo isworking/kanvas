@@ -5,7 +5,7 @@
 
 #include <stdlib.h>
 
-kvs_drawable *kvs_drawable_create(kvs_sample_fn sample, kvs_destroy_fn destroy, kvs_clone_fn clone)
+kvs_drawable *kvs_drawable_create(kvs_sample_fn sample, kvs_destroy_fn destroy, kvs_clone_fn clone, kvs_bounds_fn bounds)
 {
     kvs_drawable *drawable = malloc(sizeof(kvs_drawable));
 
@@ -17,6 +17,7 @@ kvs_drawable *kvs_drawable_create(kvs_sample_fn sample, kvs_destroy_fn destroy, 
     drawable->sample = sample;
     drawable->destroy = destroy;
     drawable->clone = clone;
+    drawable->bounds = bounds;
 
     kvs_drawable_set_state(drawable, (kvs_drawable_state){0});
     kvs_drawable_set_userdata(drawable, NULL);
@@ -71,4 +72,11 @@ void kvs_drawable_destroy(kvs_drawable *drawable)
 kvs_drawable *kvs_drawable_clone(const kvs_drawable *src)
 {
     return src->clone(src);
+}
+
+kvs_rect kvs_drawable_bounds(
+    const kvs_drawable *drawable,
+    kvs_pos position)
+{
+    return drawable->bounds(drawable, position);
 }

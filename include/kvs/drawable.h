@@ -34,10 +34,15 @@ typedef void (*kvs_destroy_fn)(
 typedef kvs_drawable *(*kvs_clone_fn)(
     const kvs_drawable *src);
 
+typedef kvs_rect (*kvs_bounds_fn)(
+    const kvs_drawable *drawable,
+    kvs_pos position);
+
 KVS_API kvs_drawable *kvs_drawable_create(
     kvs_sample_fn sample,
     kvs_destroy_fn destroy,
-    kvs_clone_fn clone);
+    kvs_clone_fn clone,
+    kvs_bounds_fn bounds);
 
 KVS_API void kvs_drawable_set_state(
     kvs_drawable *drawable,
@@ -65,6 +70,10 @@ KVS_API void kvs_drawable_destroy(
 
 KVS_API kvs_drawable *kvs_drawable_clone(
     const kvs_drawable *src);
+
+KVS_API kvs_rect kvs_drawable_bounds(
+    const kvs_drawable *drawable,
+    kvs_pos position);
 
 KVS_END_DECLS
 

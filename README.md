@@ -81,7 +81,7 @@ Early development. The API is unstable and tests are still being written.
     - [x] ~~RGBA~~
     - [x] ~~RGB~~
     - [x] ~~Hexadecimal~~
-- [ ] Drawable bounding boxes
+- [x] ~~Drawable bounding boxes~~
 - [ ] Rasterize per drawable instead of per pixel
 - [ ] Error handling
 - [ ] Add tests

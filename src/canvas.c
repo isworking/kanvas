@@ -50,14 +50,28 @@ float kvs_canvas_node_get_opacity(const kvs_canvas_node *node)
     return node->opacity;
 }
 
+void kvs_canvas_node_set_bounds(kvs_canvas_node *node, kvs_rect bounds)
+{
+    node->bounds = bounds;
+}
+
+kvs_rect kvs_canvas_node_get_bounds(const kvs_canvas_node *node)
+{
+    return node->bounds;
+}
+
 void kvs_canvas_node_set_position(kvs_canvas_node *node, kvs_pos position)
 {
-    node->position = position;
+    kvs_drawable *drawable = kvs_canvas_node_get_drawable(node);
+
+    node->bounds = kvs_drawable_bounds(drawable, position);
 }
 
 kvs_pos kvs_canvas_node_get_position(const kvs_canvas_node *node)
 {
-    return node->position;
+    kvs_rect bounds = kvs_canvas_node_get_bounds(node);
+
+    return KVS_POS(bounds.x, bounds.y);
 }
 
 void kvs_canvas_node_set_next(kvs_canvas_node *node, kvs_canvas_node *next)
@@ -208,7 +222,8 @@ kvs_canvas_node *kvs_canvas_add(
     if (!node)
         return NULL;
 
-    kvs_canvas_node_set_position(node, position);
+    kvs_rect bounds = kvs_drawable_bounds(drawable, position);
+    kvs_canvas_node_set_bounds(node, bounds);
 
     if (!kvs_canvas_get_head(canvas) || !kvs_canvas_get_tail(canvas))
     {
@@ -225,19 +240,33 @@ kvs_canvas_node *kvs_canvas_add(
 
 void kvs_canvas_render(kvs_canvas *canvas)
 {
+    int canvas_width = kvs_canvas_get_width(canvas);
+    int canvas_height = kvs_canvas_get_height(canvas);
+
     kvs_color *pixels = kvs_canvas_get_pixels(canvas);
 
-    for (int y = 0; y < kvs_canvas_get_height(canvas); y++)
+    for (int y = 0; y < canvas_height; y++)
     {
-        for (int x = 0; x < kvs_canvas_get_width(canvas); x++)
+        for (int x = 0; x < canvas_width; x++)
         {
-            int idx = y * kvs_canvas_get_width(canvas) + x;
+            int idx = y * canvas_width + x;
 
             kvs_canvas_node *current_node = kvs_canvas_get_head(canvas);
 
             while (current_node)
             {
-                if (kvs_canvas_node_get_visible(current_node))
+                kvs_rect bounds = kvs_canvas_node_get_bounds(current_node);
+
+                if (!kvs_canvas_node_get_visible(current_node))
+                {
+                    current_node = kvs_canvas_node_get_next(current_node);
+                    continue;
+                }
+
+                if (x >= bounds.x &&
+                    y >= bounds.y &&
+                    x < bounds.x + bounds.w &&
+                    y < bounds.y + bounds.h)
                 {
                     kvs_pos position = kvs_canvas_node_get_position(current_node);
 

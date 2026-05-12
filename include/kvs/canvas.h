@@ -26,6 +26,9 @@ KVS_API bool kvs_canvas_node_get_visible(const kvs_canvas_node *node);
 KVS_API void kvs_canvas_node_set_opacity(kvs_canvas_node *node, float opacity);
 KVS_API float kvs_canvas_node_get_opacity(const kvs_canvas_node *node);
 
+KVS_API void kvs_canvas_node_set_bounds(kvs_canvas_node *node, kvs_rect bounds);
+KVS_API kvs_rect kvs_canvas_node_get_bounds(const kvs_canvas_node *node);
+
 KVS_API void kvs_canvas_node_set_position(kvs_canvas_node *node, kvs_pos position);
 KVS_API kvs_pos kvs_canvas_node_get_position(const kvs_canvas_node *node);
 

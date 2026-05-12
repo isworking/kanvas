@@ -12,7 +12,7 @@ typedef struct kvs_canvas_node
 
     bool visible;
     float opacity;
-    kvs_pos position;
+    kvs_rect bounds;
 
     struct kvs_canvas_node *next;
 } kvs_canvas_node;

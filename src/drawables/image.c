@@ -10,22 +10,16 @@ typedef struct kvs_image_data
     kvs_image *src;
 } kvs_image_data;
 
+kvs_rect kvs_drawable_image_bounds(const kvs_drawable *drawable, kvs_pos position);
+
 static bool kvs_drawable_image_sample(kvs_canvas *canvas, kvs_drawable_state state, void *userdata, kvs_pos position, kvs_color *out)
 {
     (void)state;
+    (void)canvas;
 
     kvs_image_data *img = userdata;
 
-    int img_width = kvs_image_get_width(img->src);
-    int img_height = kvs_image_get_height(img->src);
-
-    (void)canvas;
-
-    if (
-        position.x < 0 ||
-        position.y < 0 ||
-        position.x >= img_width ||
-        position.y >= img_height)
+    if (position.x < 0 || position.y < 0)
         return false;
 
     *out = kvs_image_get_pixel(img->src, position);
@@ -46,11 +40,11 @@ static kvs_drawable *kvs_drawable_image_clone(
     const kvs_drawable *src)
 {
     kvs_drawable *copy =
-        kvs_drawable_create(kvs_drawable_image_sample, kvs_drawable_image_destroy, kvs_drawable_image_clone);
+        kvs_drawable_create(kvs_drawable_image_sample, kvs_drawable_image_destroy, kvs_drawable_image_clone, kvs_drawable_image_bounds);
 
     if (!copy)
         return NULL;
-
+    kvs_rect kvs_drawable_image_bounds(const kvs_drawable *drawable, kvs_pos position);
     kvs_image_data *src_data =
         kvs_drawable_get_userdata(src);
 
@@ -71,9 +65,19 @@ static kvs_drawable *kvs_drawable_image_clone(
     return copy;
 }
 
+kvs_rect kvs_drawable_image_bounds(const kvs_drawable *drawable, kvs_pos position)
+{
+    kvs_image *img = kvs_drawable_image_get_source(drawable);
+
+    int img_width = kvs_image_get_width(img);
+    int img_height = kvs_image_get_height(img);
+
+    return KVS_RECT(position.x, position.y, img_width, img_height);
+}
+
 kvs_drawable *kvs_drawable_image(kvs_image *src)
 {
-    kvs_drawable *drawable = kvs_drawable_create(kvs_drawable_image_sample, kvs_drawable_image_destroy, kvs_drawable_image_clone);
+    kvs_drawable *drawable = kvs_drawable_create(kvs_drawable_image_sample, kvs_drawable_image_destroy, kvs_drawable_image_clone, kvs_drawable_image_bounds);
 
     if (!drawable)
     {
