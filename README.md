@@ -85,7 +85,7 @@ Early development. The API is unstable and tests are still being written.
 
 - [x] ~~Drawable bounding boxes~~
 
-- [ ] Rasterize per drawable instead of per pixel
+- [x] ~~Rasterize per drawable instead of per pixel~~
 
 - [ ] Moving from LinkedList to Array for Canvas Nodes
 

@@ -240,56 +240,75 @@ kvs_canvas_node *kvs_canvas_add(
 
 void kvs_canvas_render(kvs_canvas *canvas)
 {
+    kvs_color *pixels = kvs_canvas_get_pixels(canvas);
+
     int canvas_width = kvs_canvas_get_width(canvas);
     int canvas_height = kvs_canvas_get_height(canvas);
 
-    kvs_color *pixels = kvs_canvas_get_pixels(canvas);
+    kvs_canvas_node *current_node = kvs_canvas_get_head(canvas);
 
-    for (int y = 0; y < canvas_height; y++)
+    while (current_node)
     {
-        for (int x = 0; x < canvas_width; x++)
+        kvs_rect bounds = kvs_canvas_node_get_bounds(current_node);
+
+        if (bounds.w <= 0 || bounds.h <= 0)
         {
-            int idx = y * canvas_width + x;
+            current_node =
+                kvs_canvas_node_get_next(current_node);
 
-            kvs_canvas_node *current_node = kvs_canvas_get_head(canvas);
+            continue;
+        }
 
-            while (current_node)
+        int start_x =
+            bounds.x < 0 ? 0 : bounds.x;
+
+        int start_y =
+            bounds.y < 0 ? 0 : bounds.y;
+
+        int end_x =
+            bounds.x + bounds.w;
+
+        int end_y =
+            bounds.y + bounds.h;
+
+        if (end_x > canvas_width)
+            end_x = canvas_width;
+
+        if (end_y > canvas_height)
+            end_y = canvas_height;
+
+        bool visible = kvs_canvas_node_get_visible(current_node);
+        float opacity = kvs_canvas_node_get_opacity(current_node);
+
+        if (visible)
+        {
+            kvs_drawable *drawable = kvs_canvas_node_get_drawable(current_node);
+
+            for (int y = start_y; y < end_y; y++)
             {
-                kvs_rect bounds = kvs_canvas_node_get_bounds(current_node);
+                int row = y * canvas_width;
 
-                if (!kvs_canvas_node_get_visible(current_node))
+                for (int x = start_x; x < end_x; x++)
                 {
-                    current_node = kvs_canvas_node_get_next(current_node);
-                    continue;
-                }
+                    int idx = row + x;
 
-                if (x >= bounds.x &&
-                    y >= bounds.y &&
-                    x < bounds.x + bounds.w &&
-                    y < bounds.y + bounds.h)
-                {
-                    kvs_pos position = kvs_canvas_node_get_position(current_node);
-
-                    int local_y = y - position.y;
-                    int local_x = x - position.x;
-
+                    int local_x = x - bounds.x;
+                    int local_y = y - bounds.y;
                     kvs_pos local_pos = KVS_POS(local_x, local_y);
 
                     kvs_color out;
 
-                    kvs_drawable *drawable = kvs_canvas_node_get_drawable(current_node);
-
                     if (kvs_drawable_sample(drawable, canvas, local_pos, &out))
                     {
-                        out.a = (kvs_u8)((float)out.a * kvs_canvas_node_get_opacity(current_node));
+                        out.a = (kvs_u8)((float)out.a * opacity);
 
                         pixels[idx] = kvs_color_blend(out, pixels[idx]);
                     }
                 }
-
-                current_node = kvs_canvas_node_get_next(current_node);
             }
         }
+
+        current_node = kvs_canvas_node_get_next(current_node);
     }
 }
 
