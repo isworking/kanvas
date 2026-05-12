@@ -42,14 +42,6 @@ kvs_color kvs_color_from_hex_rgba(kvs_u32 hex)
         hex & 0xFF);
 }
 
-static inline kvs_u8 kvs_color_blend_channel(
-    kvs_u8 src,
-    kvs_u8 dst,
-    kvs_u8 alpha)
-{
-    return (src * alpha + dst * (255 - alpha)) / 255;
-}
-
 kvs_color kvs_color_blend(kvs_color src, kvs_color dst)
 {
     float srcA = src.a / 255.0f;
