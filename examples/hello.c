@@ -18,7 +18,7 @@ int main(void)
     kvs_canvas_render(canvas);
 
     kvs_image *out = kvs_canvas_export_to_image(canvas);
-    kvs_image_write_png(out, "build/output.png");
+    kvs_image_write_png(out, "examples/output.png");
     kvs_image_destroy(out);
 
     kvs_canvas_destroy(canvas);

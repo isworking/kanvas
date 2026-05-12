@@ -48,7 +48,7 @@ int main(void)
 ```
 
 This should result in the following image:
-![Kanvas screenshot](docs/assets/screenshot.png)
+![Kanvas screenshot](examples/output.png)
 
 See [examples/](examples/) for more.
 
