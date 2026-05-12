@@ -76,26 +76,104 @@ Early development. The API is unstable and tests are still being written.
 ## Roadmap
 
 - [x] ~~Image drawables~~
-    - [ ] Use `state.color` as tint
-- [x] ~~Color format support~~
+    - [ ] (optional) Use `state.color` as tint
+
+- [x] ~~Basic color parsing~~
     - [x] ~~RGBA~~
     - [x] ~~RGB~~
     - [x] ~~Hexadecimal~~
+
 - [x] ~~Drawable bounding boxes~~
+
 - [ ] Rasterize per drawable instead of per pixel
+
+- [ ] Moving from LinkedList to Array for Canvas Nodes
+
 - [ ] Error handling
+    - [ ] Error messages
+    - [ ] Error types
+    - [ ] Error handling helper macros and functions
+    - [ ] (optional) `errno` integration
+
 - [ ] Add tests
+    - [ ] Basic tests
+    - [ ] Mandatory tests
+    - [ ] Stability tests
+    - [ ] ABI tests
+    - [ ] Additional tests
+
 - [ ] Add color constants
+    - [ ] Basic common color constants
+    - [ ] (optional) Additional color constants
+
 - [ ] Improve documentation and examples
+
+- [ ] Blending mode support
+    - [ ] Normal blending
+    - [ ] Additive blending
+    - [ ] Multiply blending
+    - [ ] Configurable blending
+
+- [ ] Clipping/scissor regions
+
 - [ ] Image format support
     - [x] ~~PNG~~
         - [ ] Add more detailed PNG metadata
     - [ ] JPEG
+    - [ ] (optional) BMP
+
+- [ ] Introduce format-aware color representation
+    - [ ] Generic pixel format abstraction
+    - [ ] RGBA8888 support
+    - [ ] RGB888 support
+
+- [ ] Add pixel storage format support
+    - [ ] BGRA8888
+    - [ ] RGB565
+    - [ ] GRAY8
+    - [ ] Configurable pixel storage format
+
+- [ ] Add color space support
+    - [x] ~~sRGB~~
+    - [ ] (optional) Linear RGB
+    - [ ] Configurable color space
+
+- [ ] Add color model support
+    - [x] ~~RGB~~
+    - [ ] HSL
+    - [ ] HSV
+    - [ ] (optional) Grayscale
+    - [ ] (optional) CMYK
+    - [ ] Configurable color model
+
 - [ ] Drawable scaling
+    - [ ] Nearest scaling
+    - [ ] Bilinear scaling
+    - [ ] (optional) Bicubic scaling
+    - [ ] Configurable scaling
+
 - [ ] Text drawables
     - [ ] `FreeType` integration
     - [ ] `HarfBuzz` shaping
+
+- [ ] **Stabilization**
+    - [ ] Stabilize the naming convention
+    - [ ] Stabilize the standards
+    - [ ] Stabilize the codebase
+    - [ ] Stabilize the ABI
+    - [ ] (optional) Stabilize the Build System
+
 - [ ] Boolean drawable operations
+    - [ ] Union operations
+    - [ ] Subtract operations
+    - [ ] Intersection operations
+    - [ ] Masking operations
+
+- [ ] Optimizations
+    - [ ] Basic optimizations
+    - [ ] Developer experience optimizations
+    - [ ] Performance optimizations
+    - [ ] (optional) Profiling
 
 ## License
 
