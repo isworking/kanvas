@@ -1,0 +1,27 @@
+#pragma once
+
+#ifndef MRL_CONFIG_H
+#define MRL_CONFIG_H
+
+/*
+ * Version information
+ */
+
+#define MRL_VERSION_MAJOR @PROJECT_VERSION_MAJOR @
+#define MRL_VERSION_MINOR @PROJECT_VERSION_MINOR @
+#define MRL_VERSION_PATCH @PROJECT_VERSION_PATCH @
+
+#define MRL_VERSION              \
+    ((MRL_VERSION_MAJOR << 16) | \
+     (MRL_VERSION_MINOR << 8) |  \
+     MRL_VERSION_PATCH)
+
+#define MRL_VERSION_STRING "@PROJECT_VERSION@"
+
+/*
+ * Feature configuration
+ */
+
+#cmakedefine01 MRL_ENABLE_PNG
+
+#endif

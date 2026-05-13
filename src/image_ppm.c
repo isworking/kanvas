@@ -1,10 +1,10 @@
-#include <kvs/image.h>
+#include <mrl/image.h>
 
 #include <stdio.h>
 #include <string.h>
 
-bool kvs_image_write_ppm(
-    const kvs_image *img,
+bool mrl_image_write_ppm(
+    const mrl_image *img,
     const char *path)
 {
     FILE *fp = fopen(path, "wb");
@@ -14,8 +14,8 @@ bool kvs_image_write_ppm(
         return false;
     }
 
-    int img_width = kvs_image_get_width(img);
-    int img_height = kvs_image_get_height(img);
+    int img_width = mrl_image_get_width(img);
+    int img_height = mrl_image_get_height(img);
 
     fprintf(
         fp,
@@ -27,8 +27,8 @@ bool kvs_image_write_ppm(
     {
         for (int x = 0; x < img_width; x++)
         {
-            kvs_color color =
-                kvs_image_get_pixels(img)[y * img_width + x];
+            mrl_color color =
+                mrl_image_get_pixels(img)[y * img_width + x];
 
             fputc(color.r, fp);
             fputc(color.g, fp);
@@ -41,7 +41,7 @@ bool kvs_image_write_ppm(
     return true;
 }
 
-kvs_image *kvs_image_read_ppm(const char *path)
+mrl_image *mrl_image_read_ppm(const char *path)
 {
     FILE *fp = fopen(path, "rb");
 
@@ -86,7 +86,7 @@ kvs_image *kvs_image_read_ppm(const char *path)
 
     fgetc(fp);
 
-    kvs_image *img = kvs_image_create(KVS_SIZE(width, height));
+    mrl_image *img = mrl_image_create(MRL_SIZE(width, height));
 
     if (!img)
     {
@@ -98,7 +98,7 @@ kvs_image *kvs_image_read_ppm(const char *path)
 
     for (size_t i = 0; i < pixel_count; i++)
     {
-        kvs_color *color = &kvs_image_get_pixels(img)[i];
+        mrl_color *color = &mrl_image_get_pixels(img)[i];
 
         int r = fgetc(fp);
         int g = fgetc(fp);
@@ -106,14 +106,14 @@ kvs_image *kvs_image_read_ppm(const char *path)
 
         if (r == EOF || g == EOF || b == EOF)
         {
-            kvs_image_destroy(img);
+            mrl_image_destroy(img);
             fclose(fp);
             return NULL;
         }
 
-        color->r = (kvs_u8)r;
-        color->g = (kvs_u8)g;
-        color->b = (kvs_u8)b;
+        color->r = (mrl_u8)r;
+        color->g = (mrl_u8)g;
+        color->b = (mrl_u8)b;
     }
 
     fclose(fp);

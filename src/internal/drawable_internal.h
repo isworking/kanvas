@@ -1,18 +1,18 @@
 #pragma once
 
-#ifndef KVS_DRAWABLE_INTERNAL_H
-#define KVS_DRAWABLE_INTERNAL_H
+#ifndef MRL_DRAWABLE_INTERNAL_H
+#define MRL_DRAWABLE_INTERNAL_H
 
-#include <kvs/drawable.h>
+#include <mrl/drawable.h>
 
-struct kvs_drawable
+struct mrl_drawable
 {
-    kvs_sample_fn sample;
-    kvs_destroy_fn destroy;
-    kvs_clone_fn clone;
-    kvs_bounds_fn bounds;
+    mrl_sample_fn sample;
+    mrl_destroy_fn destroy;
+    mrl_clone_fn clone;
+    mrl_bounds_fn bounds;
 
-    kvs_drawable_state state;
+    mrl_drawable_state state;
 
     void *userdata;
 };

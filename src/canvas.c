@@ -1,99 +1,99 @@
-#include <kvs/canvas.h>
-#include <kvs/image.h>
+#include <mrl/canvas.h>
+#include <mrl/image.h>
 
 #include "internal/canvas_internal.h"
 
 #include <stdlib.h>
 #include <string.h>
 
-kvs_canvas_node *kvs_canvas_node_create(kvs_drawable *drawable)
+mrl_canvas_node *mrl_canvas_node_create(mrl_drawable *drawable)
 {
-    kvs_canvas_node *node = malloc(sizeof(kvs_canvas_node));
+    mrl_canvas_node *node = malloc(sizeof(mrl_canvas_node));
 
-    kvs_canvas_node_set_drawable_clone(node, drawable);
+    mrl_canvas_node_set_drawable_clone(node, drawable);
 
-    kvs_canvas_node_set_next(node, NULL);
+    mrl_canvas_node_set_next(node, NULL);
 
-    kvs_canvas_node_set_visible(node, true);
-    kvs_canvas_node_set_opacity(node, 1.0f);
+    mrl_canvas_node_set_visible(node, true);
+    mrl_canvas_node_set_opacity(node, 1.0f);
 
     return node;
 }
 
-void kvs_canvas_node_set_drawable_clone(kvs_canvas_node *node, kvs_drawable *drawable)
+void mrl_canvas_node_set_drawable_clone(mrl_canvas_node *node, mrl_drawable *drawable)
 {
-    node->drawable = kvs_drawable_clone(drawable);
+    node->drawable = mrl_drawable_clone(drawable);
 }
 
-kvs_drawable *kvs_canvas_node_get_drawable(const kvs_canvas_node *node)
+mrl_drawable *mrl_canvas_node_get_drawable(const mrl_canvas_node *node)
 {
     return node->drawable;
 }
 
-void kvs_canvas_node_set_visible(kvs_canvas_node *node, bool visible)
+void mrl_canvas_node_set_visible(mrl_canvas_node *node, bool visible)
 {
     node->visible = visible;
 }
 
-bool kvs_canvas_node_get_visible(const kvs_canvas_node *node)
+bool mrl_canvas_node_get_visible(const mrl_canvas_node *node)
 {
     return node->visible;
 }
 
-void kvs_canvas_node_set_opacity(kvs_canvas_node *node, float opacity)
+void mrl_canvas_node_set_opacity(mrl_canvas_node *node, float opacity)
 {
     node->opacity = opacity;
 }
 
-float kvs_canvas_node_get_opacity(const kvs_canvas_node *node)
+float mrl_canvas_node_get_opacity(const mrl_canvas_node *node)
 {
     return node->opacity;
 }
 
-void kvs_canvas_node_set_bounds(kvs_canvas_node *node, kvs_rect bounds)
+void mrl_canvas_node_set_bounds(mrl_canvas_node *node, mrl_rect bounds)
 {
     node->bounds = bounds;
 }
 
-kvs_rect kvs_canvas_node_get_bounds(const kvs_canvas_node *node)
+mrl_rect mrl_canvas_node_get_bounds(const mrl_canvas_node *node)
 {
     return node->bounds;
 }
 
-void kvs_canvas_node_set_position(kvs_canvas_node *node, kvs_pos position)
+void mrl_canvas_node_set_position(mrl_canvas_node *node, mrl_pos position)
 {
-    kvs_drawable *drawable = kvs_canvas_node_get_drawable(node);
+    mrl_drawable *drawable = mrl_canvas_node_get_drawable(node);
 
-    node->bounds = kvs_drawable_bounds(drawable, position);
+    node->bounds = mrl_drawable_bounds(drawable, position);
 }
 
-kvs_pos kvs_canvas_node_get_position(const kvs_canvas_node *node)
+mrl_pos mrl_canvas_node_get_position(const mrl_canvas_node *node)
 {
-    kvs_rect bounds = kvs_canvas_node_get_bounds(node);
+    mrl_rect bounds = mrl_canvas_node_get_bounds(node);
 
-    return KVS_POS(bounds.x, bounds.y);
+    return MRL_POS(bounds.x, bounds.y);
 }
 
-void kvs_canvas_node_set_next(kvs_canvas_node *node, kvs_canvas_node *next)
+void mrl_canvas_node_set_next(mrl_canvas_node *node, mrl_canvas_node *next)
 {
     node->next = next;
 }
 
-kvs_canvas_node *kvs_canvas_node_get_next(const kvs_canvas_node *node)
+mrl_canvas_node *mrl_canvas_node_get_next(const mrl_canvas_node *node)
 {
     return node->next;
 }
 
-kvs_canvas *kvs_canvas_create(kvs_size size)
+mrl_canvas *mrl_canvas_create(mrl_size size)
 {
-    kvs_canvas *canvas = malloc(sizeof(kvs_canvas));
+    mrl_canvas *canvas = malloc(sizeof(mrl_canvas));
 
     if (!canvas)
         return NULL;
 
     canvas->size = size;
 
-    canvas->pixels = malloc(sizeof(kvs_color) * size.w * size.h);
+    canvas->pixels = malloc(sizeof(mrl_color) * size.w * size.h);
 
     if (!canvas->pixels)
     {
@@ -102,7 +102,7 @@ kvs_canvas *kvs_canvas_create(kvs_size size)
     }
 
     memset(canvas->pixels, 0,
-           sizeof(kvs_color) * size.w * size.h);
+           sizeof(mrl_color) * size.w * size.h);
 
     canvas->head = NULL;
     canvas->tail = NULL;
@@ -110,90 +110,90 @@ kvs_canvas *kvs_canvas_create(kvs_size size)
     return canvas;
 }
 
-kvs_canvas *kvs_canvas_create_from_image(
-    kvs_image *img)
+mrl_canvas *mrl_canvas_create_from_image(
+    mrl_image *img)
 {
     if (!img)
         return NULL;
 
-    kvs_canvas *canvas =
-        kvs_canvas_create(
-            kvs_image_get_size(img));
+    mrl_canvas *canvas =
+        mrl_canvas_create(
+            mrl_image_get_size(img));
 
     if (!canvas)
         return NULL;
 
     size_t total =
-        (size_t)kvs_image_get_width(img) *
-        (size_t)kvs_image_get_height(img);
+        (size_t)mrl_image_get_width(img) *
+        (size_t)mrl_image_get_height(img);
 
     memcpy(
         canvas->pixels,
-        kvs_image_get_pixels(img),
+        mrl_image_get_pixels(img),
         total * sizeof(*canvas->pixels));
 
     return canvas;
 }
 
-kvs_size kvs_canvas_get_size(const kvs_canvas *canvas)
+mrl_size mrl_canvas_get_size(const mrl_canvas *canvas)
 {
     return canvas->size;
 }
 
-int kvs_canvas_get_width(const kvs_canvas *canvas)
+int mrl_canvas_get_width(const mrl_canvas *canvas)
 {
-    return kvs_canvas_get_size(canvas).w;
+    return mrl_canvas_get_size(canvas).w;
 }
 
-int kvs_canvas_get_height(const kvs_canvas *canvas)
+int mrl_canvas_get_height(const mrl_canvas *canvas)
 {
-    return kvs_canvas_get_size(canvas).h;
+    return mrl_canvas_get_size(canvas).h;
 }
 
-kvs_color *kvs_canvas_get_pixels(const kvs_canvas *canvas)
+mrl_color *mrl_canvas_get_pixels(const mrl_canvas *canvas)
 {
     return canvas->pixels;
 }
 
-void kvs_canvas_set_pixel_blend(kvs_canvas *canvas, kvs_pos position, kvs_color color)
+void mrl_canvas_set_pixel_blend(mrl_canvas *canvas, mrl_pos position, mrl_color color)
 {
-    kvs_canvas_get_pixels(canvas)[position.y * canvas->size.w + position.x] = kvs_color_blend(color, kvs_canvas_get_pixels(canvas)[position.y * canvas->size.w + position.x]);
+    mrl_canvas_get_pixels(canvas)[position.y * canvas->size.w + position.x] = mrl_color_blend(color, mrl_canvas_get_pixels(canvas)[position.y * canvas->size.w + position.x]);
 }
 
-kvs_color kvs_canvas_get_pixel(const kvs_canvas *canvas, kvs_pos position)
+mrl_color mrl_canvas_get_pixel(const mrl_canvas *canvas, mrl_pos position)
 {
-    return kvs_canvas_get_pixels(canvas)[position.y * canvas->size.w + position.x];
+    return mrl_canvas_get_pixels(canvas)[position.y * canvas->size.w + position.x];
 }
 
-void kvs_canvas_set_head(kvs_canvas *canvas, kvs_canvas_node *node)
+void mrl_canvas_set_head(mrl_canvas *canvas, mrl_canvas_node *node)
 {
     canvas->head = node;
 }
 
-kvs_canvas_node *kvs_canvas_get_head(const kvs_canvas *canvas)
+mrl_canvas_node *mrl_canvas_get_head(const mrl_canvas *canvas)
 {
     return canvas->head;
 }
 
-void kvs_canvas_set_tail(kvs_canvas *canvas, kvs_canvas_node *node)
+void mrl_canvas_set_tail(mrl_canvas *canvas, mrl_canvas_node *node)
 {
     canvas->tail = node;
 }
 
-kvs_canvas_node *kvs_canvas_get_tail(const kvs_canvas *canvas)
+mrl_canvas_node *mrl_canvas_get_tail(const mrl_canvas *canvas)
 {
     return canvas->tail;
 }
 
-void kvs_canvas_destroy(kvs_canvas *canvas)
+void mrl_canvas_destroy(mrl_canvas *canvas)
 {
-    kvs_canvas_node *current = canvas->head;
+    mrl_canvas_node *current = canvas->head;
 
     while (current)
     {
-        kvs_drawable_destroy(current->drawable);
+        mrl_drawable_destroy(current->drawable);
 
-        kvs_canvas_node *next = current->next;
+        mrl_canvas_node *next = current->next;
         if (canvas != NULL)
             free(current);
 
@@ -210,51 +210,51 @@ void kvs_canvas_destroy(kvs_canvas *canvas)
     free(canvas);
 }
 
-kvs_canvas_node *kvs_canvas_add(
-    kvs_canvas *canvas,
-    kvs_drawable *drawable, kvs_pos position)
+mrl_canvas_node *mrl_canvas_add(
+    mrl_canvas *canvas,
+    mrl_drawable *drawable, mrl_pos position)
 {
     if (!canvas || !drawable)
         return NULL;
 
-    kvs_canvas_node *node = kvs_canvas_node_create(drawable);
+    mrl_canvas_node *node = mrl_canvas_node_create(drawable);
 
     if (!node)
         return NULL;
 
-    kvs_rect bounds = kvs_drawable_bounds(drawable, position);
-    kvs_canvas_node_set_bounds(node, bounds);
+    mrl_rect bounds = mrl_drawable_bounds(drawable, position);
+    mrl_canvas_node_set_bounds(node, bounds);
 
-    if (!kvs_canvas_get_head(canvas) || !kvs_canvas_get_tail(canvas))
+    if (!mrl_canvas_get_head(canvas) || !mrl_canvas_get_tail(canvas))
     {
-        kvs_canvas_set_head(canvas, node);
-        kvs_canvas_set_tail(canvas, node);
+        mrl_canvas_set_head(canvas, node);
+        mrl_canvas_set_tail(canvas, node);
         return node;
     }
 
-    kvs_canvas_node_set_next(kvs_canvas_get_tail(canvas), node);
-    kvs_canvas_set_tail(canvas, kvs_canvas_node_get_next(kvs_canvas_get_tail(canvas)));
+    mrl_canvas_node_set_next(mrl_canvas_get_tail(canvas), node);
+    mrl_canvas_set_tail(canvas, mrl_canvas_node_get_next(mrl_canvas_get_tail(canvas)));
 
     return node;
 }
 
-void kvs_canvas_render(kvs_canvas *canvas)
+void mrl_canvas_render(mrl_canvas *canvas)
 {
-    kvs_color *pixels = kvs_canvas_get_pixels(canvas);
+    mrl_color *pixels = mrl_canvas_get_pixels(canvas);
 
-    int canvas_width = kvs_canvas_get_width(canvas);
-    int canvas_height = kvs_canvas_get_height(canvas);
+    int canvas_width = mrl_canvas_get_width(canvas);
+    int canvas_height = mrl_canvas_get_height(canvas);
 
-    kvs_canvas_node *current_node = kvs_canvas_get_head(canvas);
+    mrl_canvas_node *current_node = mrl_canvas_get_head(canvas);
 
     while (current_node)
     {
-        kvs_rect bounds = kvs_canvas_node_get_bounds(current_node);
+        mrl_rect bounds = mrl_canvas_node_get_bounds(current_node);
 
         if (bounds.w <= 0 || bounds.h <= 0)
         {
             current_node =
-                kvs_canvas_node_get_next(current_node);
+                mrl_canvas_node_get_next(current_node);
 
             continue;
         }
@@ -277,12 +277,12 @@ void kvs_canvas_render(kvs_canvas *canvas)
         if (end_y > canvas_height)
             end_y = canvas_height;
 
-        bool visible = kvs_canvas_node_get_visible(current_node);
-        float opacity = kvs_canvas_node_get_opacity(current_node);
+        bool visible = mrl_canvas_node_get_visible(current_node);
+        float opacity = mrl_canvas_node_get_opacity(current_node);
 
         if (visible)
         {
-            kvs_drawable *drawable = kvs_canvas_node_get_drawable(current_node);
+            mrl_drawable *drawable = mrl_canvas_node_get_drawable(current_node);
 
             for (int y = start_y; y < end_y; y++)
             {
@@ -294,32 +294,32 @@ void kvs_canvas_render(kvs_canvas *canvas)
 
                     int local_x = x - bounds.x;
                     int local_y = y - bounds.y;
-                    kvs_pos local_pos = KVS_POS(local_x, local_y);
+                    mrl_pos local_pos = MRL_POS(local_x, local_y);
 
-                    kvs_color out;
+                    mrl_color out;
 
-                    if (kvs_drawable_sample(drawable, canvas, local_pos, &out))
+                    if (mrl_drawable_sample(drawable, canvas, local_pos, &out))
                     {
-                        out.a = (kvs_u8)((float)out.a * opacity);
+                        out.a = (mrl_u8)((float)out.a * opacity);
 
-                        pixels[idx] = kvs_color_blend(out, pixels[idx]);
+                        pixels[idx] = mrl_color_blend(out, pixels[idx]);
                     }
                 }
             }
         }
 
-        current_node = kvs_canvas_node_get_next(current_node);
+        current_node = mrl_canvas_node_get_next(current_node);
     }
 }
 
-void kvs_canvas_clear(
-    kvs_canvas *canvas,
-    kvs_color color)
+void mrl_canvas_clear(
+    mrl_canvas *canvas,
+    mrl_color color)
 {
     if (!canvas)
         return;
 
-    kvs_color *pixels = kvs_canvas_get_pixels(canvas);
+    mrl_color *pixels = mrl_canvas_get_pixels(canvas);
 
     if (!pixels)
         return;
@@ -332,18 +332,18 @@ void kvs_canvas_clear(
         pixels[i] = color;
 }
 
-kvs_image *kvs_canvas_export_to_image(
-    kvs_canvas *canvas)
+mrl_image *mrl_canvas_export_to_image(
+    mrl_canvas *canvas)
 {
     if (!canvas)
         return NULL;
 
-    kvs_image *img = kvs_image_create(canvas->size);
+    mrl_image *img = mrl_image_create(canvas->size);
 
     if (!img)
         return NULL;
 
-    kvs_image_set_pixels_copy(img, canvas->pixels);
+    mrl_image_set_pixels_copy(img, canvas->pixels);
 
     return img;
 }

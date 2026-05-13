@@ -1,15 +1,15 @@
 #pragma once
 
-#ifndef KVS_IMAGE_INTERNAL_H
-#define KVS_IMAGE_INTERNAL_H
+#ifndef MRL_IMAGE_INTERNAL_H
+#define MRL_IMAGE_INTERNAL_H
 
-#include <kvs/image.h>
+#include <mrl/image.h>
 
-struct kvs_image
+struct mrl_image
 {
-    kvs_size size;
+    mrl_size size;
 
-    kvs_color *pixels;
+    mrl_color *pixels;
 };
 
 #endif

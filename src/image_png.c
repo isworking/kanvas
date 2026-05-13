@@ -1,9 +1,9 @@
-#include <kvs/image.h>
+#include <mrl/image.h>
 
 #include <png.h>
 #include <stdlib.h>
 
-bool kvs_image_write_png(const kvs_image *img, const char *path)
+bool mrl_image_write_png(const mrl_image *img, const char *path)
 {
     FILE *fp = fopen(path, "wb");
 
@@ -12,8 +12,8 @@ bool kvs_image_write_png(const kvs_image *img, const char *path)
         return false;
     }
 
-    int img_width = kvs_image_get_width(img);
-    int img_height = kvs_image_get_height(img);
+    int img_width = mrl_image_get_width(img);
+    int img_height = mrl_image_get_height(img);
 
     png_structp png = png_create_write_struct(
         PNG_LIBPNG_VER_STRING,
@@ -51,7 +51,7 @@ bool kvs_image_write_png(const kvs_image *img, const char *path)
 
     text.compression = PNG_TEXT_COMPRESSION_NONE;
     text.key = "Software";
-    text.text = "Kanvas v" KVS_VERSION_STRING;
+    text.text = "Mural v" MRL_VERSION_STRING;
 
     png_set_text(
         png,
@@ -67,7 +67,7 @@ bool kvs_image_write_png(const kvs_image *img, const char *path)
     for (int y = 0; y < img_height; y++)
     {
         rows[y] =
-            (png_bytep)(kvs_image_get_pixels(img) +
+            (png_bytep)(mrl_image_get_pixels(img) +
                         y * img_width);
     }
 
@@ -85,7 +85,7 @@ bool kvs_image_write_png(const kvs_image *img, const char *path)
     return true;
 }
 
-kvs_image *kvs_image_read_png(const char *path)
+mrl_image *mrl_image_read_png(const char *path)
 {
     FILE *fp = fopen(path, "rb");
 
@@ -196,10 +196,10 @@ kvs_image *kvs_image_read_png(const char *path)
 
     png_read_update_info(png, info);
 
-    kvs_size img_size = KVS_SIZE(width, height);
+    mrl_size img_size = MRL_SIZE(width, height);
 
-    kvs_image *img =
-        kvs_image_create(img_size);
+    mrl_image *img =
+        mrl_image_create(img_size);
 
     if (!img)
     {
@@ -218,8 +218,8 @@ kvs_image *kvs_image_read_png(const char *path)
 
     if (!rows)
     {
-        free(kvs_image_get_pixels(img));
-        kvs_image_destroy(img);
+        free(mrl_image_get_pixels(img));
+        mrl_image_destroy(img);
 
         png_destroy_read_struct(
             &png,
@@ -234,7 +234,7 @@ kvs_image *kvs_image_read_png(const char *path)
     for (int y = 0; y < height; y++)
     {
         rows[y] =
-            (png_bytep)(kvs_image_get_pixels(img) +
+            (png_bytep)(mrl_image_get_pixels(img) +
                         y * width);
     }
 

@@ -1,30 +1,30 @@
 #pragma once
 
-#ifndef KVS_CANVAS_INTERNAL_H
-#define KVS_CANVAS_INTERNAL_H
+#ifndef MRL_CANVAS_INTERNAL_H
+#define MRL_CANVAS_INTERNAL_H
 
-#include <kvs/canvas.h>
-#include <kvs/drawable.h>
+#include <mrl/canvas.h>
+#include <mrl/drawable.h>
 
-typedef struct kvs_canvas_node
+typedef struct mrl_canvas_node
 {
-    kvs_drawable *drawable;
+    mrl_drawable *drawable;
 
     bool visible;
     float opacity;
-    kvs_rect bounds;
+    mrl_rect bounds;
 
-    struct kvs_canvas_node *next;
-} kvs_canvas_node;
+    struct mrl_canvas_node *next;
+} mrl_canvas_node;
 
-struct kvs_canvas
+struct mrl_canvas
 {
-    kvs_size size;
+    mrl_size size;
 
-    kvs_color *pixels;
+    mrl_color *pixels;
 
-    kvs_canvas_node *head;
-    kvs_canvas_node *tail;
+    mrl_canvas_node *head;
+    mrl_canvas_node *tail;
 };
 
 #endif

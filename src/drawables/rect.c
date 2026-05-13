@@ -1,18 +1,18 @@
-#include <kvs/types.h>
-#include <kvs/drawable.h>
+#include <mrl/types.h>
+#include <mrl/drawable.h>
 
-#include <kvs/drawables/rect.h>
+#include <mrl/drawables/rect.h>
 
 #include <stdlib.h>
 
-typedef struct kvs_rect_data
+typedef struct mrl_rect_data
 {
-    kvs_size size;
-} kvs_rect_data;
+    mrl_size size;
+} mrl_rect_data;
 
-kvs_rect kvs_rect_bounds(const kvs_drawable *drawable, kvs_pos position);
+mrl_rect mrl_rect_bounds(const mrl_drawable *drawable, mrl_pos position);
 
-static bool kvs_rect_sample(kvs_canvas *canvas, kvs_drawable_state state, void *userdata, kvs_pos position, kvs_color *out)
+static bool mrl_rect_sample(mrl_canvas *canvas, mrl_drawable_state state, void *userdata, mrl_pos position, mrl_color *out)
 {
 
     (void)canvas;
@@ -26,7 +26,7 @@ static bool kvs_rect_sample(kvs_canvas *canvas, kvs_drawable_state state, void *
     return true;
 }
 
-static void kvs_rect_destroy(
+static void mrl_rect_destroy(
     void *userdata)
 {
     if (!userdata)
@@ -35,20 +35,20 @@ static void kvs_rect_destroy(
     free(userdata);
 }
 
-static kvs_drawable *kvs_rect_clone(
-    const kvs_drawable *src)
+static mrl_drawable *mrl_rect_clone(
+    const mrl_drawable *src)
 {
-    kvs_drawable *copy =
-        kvs_drawable_create(kvs_rect_sample, kvs_rect_destroy, kvs_rect_clone, kvs_rect_bounds);
+    mrl_drawable *copy =
+        mrl_drawable_create(mrl_rect_sample, mrl_rect_destroy, mrl_rect_clone, mrl_rect_bounds);
 
     if (!copy)
         return NULL;
 
-    kvs_rect_data *src_data =
-        kvs_drawable_get_userdata(src);
+    mrl_rect_data *src_data =
+        mrl_drawable_get_userdata(src);
 
-    kvs_rect_data *data =
-        malloc(sizeof(kvs_rect_data));
+    mrl_rect_data *data =
+        malloc(sizeof(mrl_rect_data));
 
     if (!data)
     {
@@ -58,27 +58,27 @@ static kvs_drawable *kvs_rect_clone(
 
     *data = *src_data;
 
-    kvs_drawable_set_state(copy, kvs_drawable_get_state(src));
-    kvs_drawable_set_userdata(copy, data);
+    mrl_drawable_set_state(copy, mrl_drawable_get_state(src));
+    mrl_drawable_set_userdata(copy, data);
 
     return copy;
 }
 
-kvs_rect kvs_rect_bounds(const kvs_drawable *drawable, kvs_pos position)
+mrl_rect mrl_rect_bounds(const mrl_drawable *drawable, mrl_pos position)
 {
-    return KVS_RECT(position.x, position.y, kvs_drawable_rect_get_width(drawable), kvs_drawable_rect_get_height(drawable));
+    return MRL_RECT(position.x, position.y, mrl_drawable_rect_get_width(drawable), mrl_drawable_rect_get_height(drawable));
 }
 
-kvs_drawable *kvs_drawable_rect(kvs_size size)
+mrl_drawable *mrl_drawable_rect(mrl_size size)
 {
-    kvs_drawable *drawable = kvs_drawable_create(kvs_rect_sample, kvs_rect_destroy, kvs_rect_clone, kvs_rect_bounds);
+    mrl_drawable *drawable = mrl_drawable_create(mrl_rect_sample, mrl_rect_destroy, mrl_rect_clone, mrl_rect_bounds);
 
     if (!drawable)
     {
         return NULL;
     }
 
-    kvs_rect_data *data = malloc(sizeof(kvs_rect_data));
+    mrl_rect_data *data = malloc(sizeof(mrl_rect_data));
 
     if (!data)
     {
@@ -88,41 +88,41 @@ kvs_drawable *kvs_drawable_rect(kvs_size size)
 
     data->size = size;
 
-    kvs_drawable_state state;
+    mrl_drawable_state state;
 
-    state.color = kvs_color_from_rgba(255, 255, 255, 255);
+    state.color = mrl_color_from_rgba(255, 255, 255, 255);
 
-    kvs_drawable_set_userdata(drawable, data);
-    kvs_drawable_set_state(drawable, state);
+    mrl_drawable_set_userdata(drawable, data);
+    mrl_drawable_set_state(drawable, state);
 
     return drawable;
 }
 
-void kvs_drawable_rect_set_size(kvs_drawable *drawable, kvs_size size)
+void mrl_drawable_rect_set_size(mrl_drawable *drawable, mrl_size size)
 {
-    KVS_DATA(drawable, rect)->size = size;
+    MRL_DATA(drawable, rect)->size = size;
 }
-kvs_size kvs_drawable_rect_get_size(const kvs_drawable *drawable)
+mrl_size mrl_drawable_rect_get_size(const mrl_drawable *drawable)
 {
-    return KVS_DATA(drawable, rect)->size;
-}
-
-void kvs_drawable_rect_set_width(kvs_drawable *drawable, int width)
-{
-    KVS_DATA(drawable, rect)->size.w = width;
+    return MRL_DATA(drawable, rect)->size;
 }
 
-int kvs_drawable_rect_get_width(const kvs_drawable *drawable)
+void mrl_drawable_rect_set_width(mrl_drawable *drawable, int width)
 {
-    return KVS_DATA(drawable, rect)->size.w;
+    MRL_DATA(drawable, rect)->size.w = width;
 }
 
-void kvs_drawable_rect_set_height(kvs_drawable *drawable, int height)
+int mrl_drawable_rect_get_width(const mrl_drawable *drawable)
 {
-    KVS_DATA(drawable, rect)->size.h = height;
+    return MRL_DATA(drawable, rect)->size.w;
 }
 
-int kvs_drawable_rect_get_height(const kvs_drawable *drawable)
+void mrl_drawable_rect_set_height(mrl_drawable *drawable, int height)
 {
-    return KVS_DATA(drawable, rect)->size.h;
+    MRL_DATA(drawable, rect)->size.h = height;
+}
+
+int mrl_drawable_rect_get_height(const mrl_drawable *drawable)
+{
+    return MRL_DATA(drawable, rect)->size.h;
 }

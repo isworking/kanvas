@@ -1,13 +1,13 @@
-#include <kvs/drawable.h>
-#include <kvs/types.h>
+#include <mrl/drawable.h>
+#include <mrl/types.h>
 
 #include "internal/drawable_internal.h"
 
 #include <stdlib.h>
 
-kvs_drawable *kvs_drawable_create(kvs_sample_fn sample, kvs_destroy_fn destroy, kvs_clone_fn clone, kvs_bounds_fn bounds)
+mrl_drawable *mrl_drawable_create(mrl_sample_fn sample, mrl_destroy_fn destroy, mrl_clone_fn clone, mrl_bounds_fn bounds)
 {
-    kvs_drawable *drawable = malloc(sizeof(kvs_drawable));
+    mrl_drawable *drawable = malloc(sizeof(mrl_drawable));
 
     if (!drawable)
     {
@@ -19,64 +19,64 @@ kvs_drawable *kvs_drawable_create(kvs_sample_fn sample, kvs_destroy_fn destroy, 
     drawable->clone = clone;
     drawable->bounds = bounds;
 
-    kvs_drawable_set_state(drawable, (kvs_drawable_state){0});
-    kvs_drawable_set_userdata(drawable, NULL);
+    mrl_drawable_set_state(drawable, (mrl_drawable_state){0});
+    mrl_drawable_set_userdata(drawable, NULL);
 
     return drawable;
 }
 
-void kvs_drawable_set_state(kvs_drawable *drawable, kvs_drawable_state state)
+void mrl_drawable_set_state(mrl_drawable *drawable, mrl_drawable_state state)
 {
     drawable->state = state;
 }
 
-kvs_drawable_state kvs_drawable_get_state(const kvs_drawable *drawable)
+mrl_drawable_state mrl_drawable_get_state(const mrl_drawable *drawable)
 {
     return drawable->state;
 }
 
-void kvs_drawable_set_color(kvs_drawable *drawable, kvs_color color)
+void mrl_drawable_set_color(mrl_drawable *drawable, mrl_color color)
 {
     drawable->state.color = color;
 }
 
-kvs_color kvs_drawable_get_color(const kvs_drawable *drawable)
+mrl_color mrl_drawable_get_color(const mrl_drawable *drawable)
 {
     return drawable->state.color;
 }
 
-void kvs_drawable_set_userdata(kvs_drawable *drawable, void *userdata)
+void mrl_drawable_set_userdata(mrl_drawable *drawable, void *userdata)
 {
     drawable->userdata = userdata;
 }
 
-void *kvs_drawable_get_userdata(const kvs_drawable *drawable)
+void *mrl_drawable_get_userdata(const mrl_drawable *drawable)
 {
     return drawable->userdata;
 }
 
-bool kvs_drawable_sample(kvs_drawable *drawable, kvs_canvas *canvas, kvs_pos position, kvs_color *out)
+bool mrl_drawable_sample(mrl_drawable *drawable, mrl_canvas *canvas, mrl_pos position, mrl_color *out)
 {
-    return drawable->sample(canvas, kvs_drawable_get_state(drawable), kvs_drawable_get_userdata(drawable), position, out);
+    return drawable->sample(canvas, mrl_drawable_get_state(drawable), mrl_drawable_get_userdata(drawable), position, out);
 }
 
-void kvs_drawable_destroy(kvs_drawable *drawable)
+void mrl_drawable_destroy(mrl_drawable *drawable)
 {
     if (!drawable)
         return;
 
-    drawable->destroy(kvs_drawable_get_userdata(drawable));
+    drawable->destroy(mrl_drawable_get_userdata(drawable));
     free(drawable);
 }
 
-kvs_drawable *kvs_drawable_clone(const kvs_drawable *src)
+mrl_drawable *mrl_drawable_clone(const mrl_drawable *src)
 {
     return src->clone(src);
 }
 
-kvs_rect kvs_drawable_bounds(
-    const kvs_drawable *drawable,
-    kvs_pos position)
+mrl_rect mrl_drawable_bounds(
+    const mrl_drawable *drawable,
+    mrl_pos position)
 {
     return drawable->bounds(drawable, position);
 }

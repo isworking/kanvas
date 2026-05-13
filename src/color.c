@@ -1,48 +1,48 @@
-#include <kvs/color.h>
+#include <mrl/color.h>
 
-kvs_color kvs_color_from_rgba(kvs_u8 r,
-                              kvs_u8 g,
-                              kvs_u8 b,
-                              kvs_u8 a)
+mrl_color mrl_color_from_rgba(mrl_u8 r,
+                              mrl_u8 g,
+                              mrl_u8 b,
+                              mrl_u8 a)
 {
-    return (kvs_color){
+    return (mrl_color){
         .r = r,
         .g = g,
         .b = b,
         .a = a};
 }
 
-kvs_color kvs_color_from_rgb(
-    kvs_u8 r,
-    kvs_u8 g,
-    kvs_u8 b)
+mrl_color mrl_color_from_rgb(
+    mrl_u8 r,
+    mrl_u8 g,
+    mrl_u8 b)
 {
-    return (kvs_color){
+    return (mrl_color){
         .r = r,
         .g = g,
         .b = b,
         .a = 255};
 }
 
-kvs_color kvs_color_from_hex_rgb(kvs_u32 hex)
+mrl_color mrl_color_from_hex_rgb(mrl_u32 hex)
 {
-    return kvs_color_from_rgba(
+    return mrl_color_from_rgba(
         (hex >> 16) & 0xFF,
         (hex >> 8) & 0xFF,
         hex & 0xFF,
         255);
 }
 
-kvs_color kvs_color_from_hex_rgba(kvs_u32 hex)
+mrl_color mrl_color_from_hex_rgba(mrl_u32 hex)
 {
-    return kvs_color_from_rgba(
+    return mrl_color_from_rgba(
         (hex >> 24) & 0xFF,
         (hex >> 16) & 0xFF,
         (hex >> 8) & 0xFF,
         hex & 0xFF);
 }
 
-kvs_color kvs_color_blend(kvs_color src, kvs_color dst)
+mrl_color mrl_color_blend(mrl_color src, mrl_color dst)
 {
     float srcA = src.a / 255.0f;
     float dstA = dst.a / 255.0f;
@@ -51,18 +51,18 @@ kvs_color kvs_color_blend(kvs_color src, kvs_color dst)
 
     if (outA <= 0.0f)
     {
-        return (kvs_color){0, 0, 0, 0};
+        return (mrl_color){0, 0, 0, 0};
     }
 
-    kvs_color out;
+    mrl_color out;
 
-    out.r = (kvs_u8)(((src.r * srcA) + (dst.r * dstA * (1.0f - srcA))) / outA);
+    out.r = (mrl_u8)(((src.r * srcA) + (dst.r * dstA * (1.0f - srcA))) / outA);
 
-    out.g = (kvs_u8)(((src.g * srcA) + (dst.g * dstA * (1.0f - srcA))) / outA);
+    out.g = (mrl_u8)(((src.g * srcA) + (dst.g * dstA * (1.0f - srcA))) / outA);
 
-    out.b = (kvs_u8)(((src.b * srcA) + (dst.b * dstA * (1.0f - srcA))) / outA);
+    out.b = (mrl_u8)(((src.b * srcA) + (dst.b * dstA * (1.0f - srcA))) / outA);
 
-    out.a = (kvs_u8)(outA * 255.0f);
+    out.a = (mrl_u8)(outA * 255.0f);
 
     return out;
 }
